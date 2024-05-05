@@ -14,6 +14,16 @@ def fetch_ticker_hist(ticker, duration="30d"):
     return ticker.history(period=duration)
 
 ### PLOT operations ###
+
+def plot_side_by_side(ticker_1_hist, ticker_2_hist):
+
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(16,5))
+    axes[0].plot(ticker_1_hist.index, ticker_1_hist['Close'])
+    axes[0].axes.get_xaxis().set_visible(False)
+    axes[1].plot(ticker_2_hist.index, ticker_2_hist['Close'])
+    axes[1].axes.get_xaxis().set_visible(False)
+    plt.show()
+
 def plot_at_once(ticker_1_hist, ticker_2_hist):
 
     fig, ax_1 = plt.subplots(figsize=(16,9))
@@ -37,7 +47,7 @@ def plot_at_once(ticker_1_hist, ticker_2_hist):
 def plot_regression(ticker_hist, degree):
         # polynomial fit AMUNDI data
 
-        x = matplot_dates.date2num(ticker_hist.index)
+        x = np.arange(ticker_hist.index.size)
         coefs = np.poly1d(np.polyfit(x, ticker_hist['Close'], degree))
 
         ffit = np.poly1d(coefs)
